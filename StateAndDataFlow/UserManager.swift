@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class UserManager: ObservableObject {
     @Published var isRegister = false

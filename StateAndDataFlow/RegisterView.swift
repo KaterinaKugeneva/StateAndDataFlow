@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 
+
+
 class TextBindingManager: ObservableObject {
     @Published var textColor : UIColor = ( .green)
     @Published var charCount : String = "0"
@@ -22,29 +24,29 @@ class TextBindingManager: ObservableObject {
                 textColor = .red
                 isDisabled = true
             }
-                
-            
-            print ("\(textColor) , \(charCount)")
+           //print ("\(textColor) , \(charCount)")
         }
     }
     let characterLimit: Int
-
+    
     init(limit: Int ){
         characterLimit = limit
     }
 }
 
+
 struct RegisterView: View {
     @EnvironmentObject private var userManager: UserManager
     @ObservedObject var textBindingManager = TextBindingManager(limit: 3)
-   
+    @AppStorage("username") var username: String = ""
+    
     
     
     var body: some View {
         VStack {
             HStack{
                 TextField("Enter your name", text: $textBindingManager.name)
-                .multilineTextAlignment(.center)
+                    .multilineTextAlignment(.center)
                 
                 Text (textBindingManager.charCount).padding(.horizontal)
                     .foregroundColor(Color(textBindingManager.textColor))
@@ -63,6 +65,7 @@ struct RegisterView: View {
         if !textBindingManager.name.isEmpty {
             userManager.name = textBindingManager.name
             userManager.isRegister.toggle()
+            username = userManager.name
         }
     }
 }
